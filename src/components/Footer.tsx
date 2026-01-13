@@ -33,7 +33,7 @@ export function Footer() {
   };
 
   return (
-    <footer className="relative border-t border-border">
+    <footer className="relative border-t border-border bg-muted/30">
       {/* Main Footer */}
       <div className="container-custom py-16">
         <div className="grid md:grid-cols-2 lg:grid-cols-5 gap-12">

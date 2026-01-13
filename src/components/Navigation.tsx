@@ -30,7 +30,7 @@ export function Navigation() {
       transition={{ duration: 0.6, ease: "easeOut" }}
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
         isScrolled
-          ? "bg-charcoal-dark/95 backdrop-blur-xl border-b border-border/50 shadow-lg"
+          ? "bg-background/95 backdrop-blur-xl border-b border-border/50 shadow-lg"
           : "bg-transparent"
       }`}
     >
@@ -80,7 +80,7 @@ export function Navigation() {
             initial={{ opacity: 0, height: 0 }}
             animate={{ opacity: 1, height: "auto" }}
             exit={{ opacity: 0, height: 0 }}
-            className="md:hidden bg-charcoal-dark/98 backdrop-blur-xl border-b border-border"
+            className="md:hidden bg-background/98 backdrop-blur-xl border-b border-border"
           >
             <div className="container-custom py-6 flex flex-col gap-4">
               {navLinks.map((link) => (

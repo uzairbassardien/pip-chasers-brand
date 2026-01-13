@@ -55,16 +55,16 @@ export function CarRentalsSection() {
             transition={{ duration: 0.7 }}
             className="relative"
           >
-            <div className="aspect-[4/3] rounded-2xl overflow-hidden bg-gradient-to-br from-charcoal-light to-charcoal border border-border relative">
+            <div className="aspect-[4/3] rounded-2xl overflow-hidden bg-gradient-to-br from-muted to-background border border-border relative shadow-xl">
               <img 
                 src={luxuryCarImage} 
                 alt="Luxury sports car for matric ball rentals"
                 className="w-full h-full object-cover"
               />
               {/* Overlay Effect */}
-              <div className="absolute inset-0 bg-gradient-to-t from-charcoal-dark/80 via-transparent to-transparent" />
+              <div className="absolute inset-0 bg-gradient-to-t from-foreground/60 via-transparent to-transparent" />
               <div className="absolute bottom-6 left-6 right-6">
-                <div className="inline-flex items-center gap-2 px-4 py-2 bg-gold/20 rounded-full border border-gold/30 backdrop-blur-sm">
+                <div className="inline-flex items-center gap-2 px-4 py-2 bg-white/90 rounded-full border border-gold/30 backdrop-blur-sm">
                   <span className="w-2 h-2 bg-gold rounded-full animate-pulse" />
                   <span className="text-sm text-gold font-medium">Now Booking for 2025</span>
                 </div>

@@ -6,16 +6,16 @@ export function HeroSection() {
   return (
     <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
       {/* Background Effects */}
-      <div className="absolute inset-0 bg-charcoal-dark" />
-      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_hsl(45_80%_55%_/_0.08)_0%,_transparent_60%)]" />
-      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_bottom_right,_hsl(45_80%_55%_/_0.05)_0%,_transparent_50%)]" />
+      <div className="absolute inset-0 bg-background" />
+      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_hsl(217_91%_50%_/_0.08)_0%,_transparent_60%)]" />
+      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_bottom_right,_hsl(217_91%_50%_/_0.05)_0%,_transparent_50%)]" />
       
       {/* Grid Pattern */}
       <div 
         className="absolute inset-0 opacity-[0.03]"
         style={{
-          backgroundImage: `linear-gradient(hsl(45 80% 55%) 1px, transparent 1px),
-                           linear-gradient(90deg, hsl(45 80% 55%) 1px, transparent 1px)`,
+          backgroundImage: `linear-gradient(hsl(217 91% 50%) 1px, transparent 1px),
+                           linear-gradient(90deg, hsl(217 91% 50%) 1px, transparent 1px)`,
           backgroundSize: '60px 60px'
         }}
       />
@@ -57,7 +57,7 @@ export function HeroSection() {
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.7, delay: 0.1 }}
-            className="font-display text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold leading-tight mb-6"
+            className="font-display text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold leading-tight mb-6 text-foreground"
           >
             Master the Markets with{" "}
             <span className="text-gradient-gold">Discipline</span>
