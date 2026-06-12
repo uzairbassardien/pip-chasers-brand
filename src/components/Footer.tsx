@@ -22,9 +22,9 @@ const footerLinks = {
 };
 
 const socialLinks = [
-  { icon: Instagram, href: "https://instagram.com/pipchasers", label: "Instagram" },
-  { icon: MessageCircle, href: "https://wa.me/27000000000", label: "WhatsApp" },
-  { icon: Mail, href: "mailto:hello@pipchasers.com", label: "Email" },
+  { icon: Instagram, href: "https://instagram.com/_ameerkarriem", label: "Instagram" },
+  { icon: MessageCircle, href: "https://wa.me/27720702237", label: "WhatsApp" },
+  { icon: Mail, href: "mailto:karriemameer@gmail.com", label: "Email" },
 ];
 
 export function Footer() {

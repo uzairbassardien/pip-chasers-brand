@@ -10,22 +10,22 @@ const contactMethods = [
   {
     icon: MessageCircle,
     label: "WhatsApp",
-    value: "Chat with us",
-    href: "https://wa.me/27000000000",
+    value: "072 070 2237",
+    href: "https://wa.me/27720702237",
     color: "text-green-500",
   },
   {
     icon: Instagram,
     label: "Instagram",
-    value: "@pipchasers",
-    href: "https://instagram.com/pipchasers",
+    value: "@_ameerkarriem",
+    href: "https://instagram.com/_ameerkarriem",
     color: "text-pink-500",
   },
   {
     icon: Mail,
     label: "Email",
-    value: "hello@pipchasers.com",
-    href: "mailto:hello@pipchasers.com",
+    value: "karriemameer@gmail.com",
+    href: "mailto:karriemameer@gmail.com",
     color: "text-gold",
   },
 ];

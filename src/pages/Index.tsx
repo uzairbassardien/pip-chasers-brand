@@ -2,8 +2,10 @@ import { Navigation } from "@/components/Navigation";
 import { HeroSection } from "@/components/HeroSection";
 import { AboutSection } from "@/components/AboutSection";
 import { ServicesSection } from "@/components/ServicesSection";
+import { SignalsSection } from "@/components/SignalsSection";
+import { MentorshipSection } from "@/components/MentorshipSection";
 import { ResultsSection } from "@/components/ResultsSection";
-import { BrokerSignupSection } from "@/components/BrokerSignupSection";
+import { BrokersSection } from "@/components/BrokersSection";
 import { CarRentalsSection } from "@/components/CarRentalsSection";
 import { TestimonialsSection } from "@/components/TestimonialsSection";
 import { ContactSection } from "@/components/ContactSection";
@@ -16,8 +18,10 @@ const Index = () => {
       <HeroSection />
       <AboutSection />
       <ServicesSection />
+      <SignalsSection />
+      <MentorshipSection />
       <ResultsSection />
-      <BrokerSignupSection />
+      <BrokersSection />
       <CarRentalsSection />
       <TestimonialsSection />
       <ContactSection />
