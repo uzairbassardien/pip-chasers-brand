@@ -6,7 +6,7 @@ import { Link } from "react-router-dom";
 const tiers = [
   {
     name: "Monthly",
-    price: "R300",
+    price: "R2000",
     period: "/month",
     description: "Premium signals delivered daily. Cancel anytime.",
     features: [
@@ -21,7 +21,7 @@ const tiers = [
   },
   {
     name: "Yearly",
-    price: "R3000",
+    price: "R6000",
     period: "/year",
     description: "Best value — save vs monthly and lock in your edge.",
     features: [
@@ -36,8 +36,8 @@ const tiers = [
   },
   {
     name: "Lifetime",
-    price: "Lifetime",
-    period: "access",
+    price: "R15000",
+    period: "once",
     description: "Pay once. Receive signals for life. Limited spots.",
     features: [
       "Lifetime access to all signals",

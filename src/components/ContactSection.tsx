@@ -30,6 +30,8 @@ const contactMethods = [
   },
 ];
 
+const whatsappNumber = "27720702237";
+
 export function ContactSection() {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: "-100px" });
@@ -42,8 +44,20 @@ export function ContactSection() {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    // Handle form submission
-    console.log(formData);
+
+    const message = [
+      "Hi Pip Chasers, I would like to get in touch.",
+      `Name: ${formData.name}`,
+      `Email: ${formData.email}`,
+      `Subject: ${formData.subject}`,
+      `Message: ${formData.message}`,
+    ].join("\n");
+
+    window.open(
+      `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(message)}`,
+      "_blank",
+      "noopener,noreferrer",
+    );
   };
 
   return (
@@ -68,8 +82,8 @@ export function ContactSection() {
             <span className="text-gradient-gold">Journey?</span>
           </h2>
           <p className="text-muted-foreground">
-            Whether you're interested in trading mentorship or booking a luxury ride, 
-            we're here to help. Reach out today.
+            Whether you're interested in trading mentorship or market guidance, we're
+            here to help. Reach out today.
           </p>
         </motion.div>
 
@@ -107,8 +121,7 @@ export function ContactSection() {
               <MapPin className="w-8 h-8 text-gold mb-3" />
               <h4 className="font-display font-semibold mb-2">Based in South Africa</h4>
               <p className="text-sm text-muted-foreground">
-                Serving traders worldwide and providing luxury car rentals in 
-                Gauteng and surrounding areas.
+                Serving traders worldwide from South Africa.
               </p>
             </div>
           </motion.div>
@@ -152,7 +165,7 @@ export function ContactSection() {
                 <label className="block text-sm font-medium mb-2">Subject</label>
                 <Input
                   type="text"
-                  placeholder="Trading Mentorship / Car Rental / Other"
+                  placeholder="Trading Mentorship / Market Guidance / Other"
                   value={formData.subject}
                   onChange={(e) => setFormData({ ...formData, subject: e.target.value })}
                   className="bg-charcoal-light border-border focus:border-gold"

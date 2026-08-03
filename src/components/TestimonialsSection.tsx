@@ -12,25 +12,11 @@ const testimonials = [
     type: "trading",
   },
   {
-    name: "Naledi K.",
-    role: "Matric 2024",
-    content: "The car rental service was incredible! Arrived on time, the car was spotless, and everyone at my matric ball was impressed. Highly recommend!",
-    rating: 5,
-    type: "rental",
-  },
-  {
     name: "James P.",
     role: "Forex Trader",
     content: "After months of losses, the mentorship program helped me find consistency. The community support and daily analysis are game-changers.",
     rating: 5,
     type: "trading",
-  },
-  {
-    name: "Mpho S.",
-    role: "Event Photoshoot",
-    content: "Booked for a birthday photoshoot. Professional service, beautiful cars, and made my event photos look absolutely premium.",
-    rating: 5,
-    type: "rental",
   },
 ];
 
@@ -57,7 +43,7 @@ export function TestimonialsSection() {
           </h2>
           <p className="text-muted-foreground">
             Real feedback from real people who trusted Pip Chasers with their 
-            trading journey and special moments.
+            trading journey.
           </p>
         </motion.div>
 
@@ -98,12 +84,8 @@ export function TestimonialsSection() {
                   <p className="text-sm text-muted-foreground">{testimonial.role}</p>
                 </div>
                 <div className="ml-auto">
-                  <span className={`text-xs px-3 py-1 rounded-full ${
-                    testimonial.type === "trading"
-                      ? "bg-gold/10 text-gold"
-                      : "bg-foreground/10 text-foreground"
-                  }`}>
-                    {testimonial.type === "trading" ? "Trading" : "Car Rental"}
+                  <span className="text-xs px-3 py-1 rounded-full bg-gold/10 text-gold">
+                    Trading
                   </span>
                 </div>
               </div>

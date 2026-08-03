@@ -5,7 +5,7 @@ import { Button } from "./ui/button";
 const tiers = [
   {
     name: "Monthly Mentorship",
-    price: "R2,000",
+    price: "R2000",
     period: "/month",
     icon: Calendar,
     description: "Hands-on coaching, month by month.",
@@ -21,7 +21,7 @@ const tiers = [
   },
   {
     name: "Yearly Mentorship",
-    price: "R6,000",
+    price: "R6000",
     period: "/year",
     icon: GraduationCap,
     description: "Full year of structured growth. Save big vs monthly.",
@@ -37,7 +37,7 @@ const tiers = [
   },
   {
     name: "Lifetime Mentorship",
-    price: "R15,000",
+    price: "R15000",
     period: "once-off",
     icon: Crown,
     description: "Pay once. Mentorship for life. Limited intake.",

@@ -7,12 +7,6 @@ const footerLinks = {
     { name: "Psychology Coaching", href: "#services" },
     { name: "Private Community", href: "#services" },
   ],
-  rentals: [
-    { name: "Matric Ball Cars", href: "#rentals" },
-    { name: "Event Rentals", href: "#rentals" },
-    { name: "Photoshoots", href: "#rentals" },
-    { name: "View Fleet", href: "#rentals" },
-  ],
   company: [
     { name: "About Us", href: "#about" },
     { name: "Results", href: "#results" },
@@ -36,15 +30,14 @@ export function Footer() {
     <footer className="relative border-t border-border bg-muted/30">
       {/* Main Footer */}
       <div className="container-custom py-16">
-        <div className="grid md:grid-cols-2 lg:grid-cols-5 gap-12">
+        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-12">
           {/* Brand */}
           <div className="lg:col-span-2">
             <h2 className="font-display text-2xl font-bold text-gradient-gold mb-4">
               Pip Chasers
             </h2>
             <p className="text-muted-foreground mb-6 max-w-sm">
-              Chasing Precision. Delivering Pips. Master the markets with discipline 
-              and arrive in style with our luxury car rentals.
+              Chasing Precision. Delivering Pips. Master the markets with discipline.
             </p>
             <div className="flex gap-4">
               {socialLinks.map((social) => (
@@ -67,23 +60,6 @@ export function Footer() {
             <h3 className="font-display font-semibold mb-4">Trading</h3>
             <ul className="space-y-3">
               {footerLinks.services.map((link) => (
-                <li key={link.name}>
-                  <a
-                    href={link.href}
-                    className="text-sm text-muted-foreground hover:text-gold transition-colors"
-                  >
-                    {link.name}
-                  </a>
-                </li>
-              ))}
-            </ul>
-          </div>
-
-          {/* Car Rentals */}
-          <div>
-            <h3 className="font-display font-semibold mb-4">Car Rentals</h3>
-            <ul className="space-y-3">
-              {footerLinks.rentals.map((link) => (
                 <li key={link.name}>
                   <a
                     href={link.href}

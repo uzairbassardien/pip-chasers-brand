@@ -124,7 +124,7 @@ const LifetimeSignals = () => {
                 Lifetime Signals
               </p>
               <p className="font-display text-6xl font-bold text-gradient-gold mb-2">
-                Lifetime
+                R15000
               </p>
               <p className="text-muted-foreground mb-8">
                 One-time payment · No renewals · All future updates included
