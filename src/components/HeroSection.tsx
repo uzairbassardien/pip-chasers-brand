@@ -1,6 +1,14 @@
 import { motion } from "framer-motion";
 import { ArrowRight, TrendingUp } from "lucide-react";
 import { Button } from "./ui/button";
+import { lifestyleImages } from "@/lib/lifestyleImages";
+
+const heroLifestyleImages = [
+  { image: 1, top: "18%", left: "3%", size: "w-24 2xl:w-32", rotate: -10, delay: 0.15 },
+  { image: 5, top: "28%", right: "4%", size: "w-28 2xl:w-36", rotate: 8, delay: 0.35 },
+  { image: 9, bottom: "24%", left: "6%", size: "w-28 2xl:w-36", rotate: 7, delay: 0.55 },
+  { image: 12, bottom: "18%", right: "7%", size: "w-24 2xl:w-32", rotate: -9, delay: 0.75 },
+];
 
 export function HeroSection() {
   return (
@@ -36,6 +44,43 @@ export function HeroSection() {
         transition={{ duration: 7, repeat: Infinity, ease: "easeInOut" }}
         className="absolute bottom-1/3 left-[25%] w-1.5 h-1.5 bg-gold/50 rounded-full blur-sm"
       />
+
+      <div aria-hidden="true" className="pointer-events-none absolute inset-0 z-10 hidden xl:block">
+        {heroLifestyleImages.map((item, index) => {
+          const image = lifestyleImages[item.image % lifestyleImages.length];
+
+          return (
+            <motion.figure
+              key={image.src}
+              className={`absolute ${item.size}`}
+              style={{
+                top: item.top,
+                bottom: item.bottom,
+                left: item.left,
+                right: item.right,
+                rotate: `${item.rotate}deg`,
+              }}
+              initial={{ opacity: 0, y: 24, scale: 0.92 }}
+              animate={{ opacity: 1, y: 0, scale: 1 }}
+              transition={{ duration: 0.7, delay: item.delay }}
+            >
+              <motion.img
+                src={image.src}
+                alt=""
+                loading="eager"
+                animate={{ y: [0, -12, 0], rotate: [0, 1.5, 0] }}
+                transition={{
+                  duration: 6 + index,
+                  repeat: Infinity,
+                  ease: "easeInOut",
+                  delay: item.delay,
+                }}
+                className="aspect-[4/5] w-full rounded-lg border border-white/75 object-cover opacity-95 shadow-[0_18px_50px_-22px_hsl(220_20%_15%_/_0.55)] ring-1 ring-gold/20"
+              />
+            </motion.figure>
+          );
+        })}
+      </div>
 
       <div className="container-custom relative z-10 pt-20">
         <div className="max-w-4xl mx-auto text-center">
