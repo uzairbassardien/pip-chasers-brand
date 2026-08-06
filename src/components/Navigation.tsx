@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Menu, X } from "lucide-react";
 import { Button } from "./ui/button";
+import { scrollToSection } from "@/lib/scrollToSection";
 
 const navLinks = [
   { name: "About", href: "/#about" },
@@ -58,7 +59,7 @@ export function Navigation() {
 
           {/* CTA Button */}
           <div className="hidden md:block">
-            <Button variant="gold" size="lg">
+            <Button variant="gold" size="lg" onClick={() => scrollToSection("contact")}>
               Join Now
             </Button>
           </div>
@@ -93,7 +94,15 @@ export function Navigation() {
                   {link.name}
                 </a>
               ))}
-              <Button variant="gold" size="lg" className="mt-4">
+              <Button
+                variant="gold"
+                size="lg"
+                className="mt-4"
+                onClick={() => {
+                  setIsMobileMenuOpen(false);
+                  scrollToSection("contact");
+                }}
+              >
                 Join Now
               </Button>
             </div>

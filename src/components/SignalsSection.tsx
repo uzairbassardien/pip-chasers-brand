@@ -1,12 +1,11 @@
 import { motion } from "framer-motion";
 import { Check, TrendingUp, ArrowRight } from "lucide-react";
 import { Button } from "./ui/button";
-import { Link } from "react-router-dom";
 
 const tiers = [
   {
     name: "Monthly",
-    price: "R2000",
+    price: "R300",
     period: "/month",
     description: "Premium signals delivered daily. Cancel anytime.",
     features: [
@@ -21,7 +20,7 @@ const tiers = [
   },
   {
     name: "Yearly",
-    price: "R6000",
+    price: "R3000",
     period: "/year",
     description: "Best value — save vs monthly and lock in your edge.",
     features: [
@@ -33,22 +32,6 @@ const tiers = [
     cta: "Go Yearly",
     href: "https://wa.me/27720702237?text=Hi%20I%20want%20to%20join%20Yearly%20Signals",
     featured: true,
-  },
-  {
-    name: "Lifetime",
-    price: "R15000",
-    period: "once",
-    description: "Pay once. Receive signals for life. Limited spots.",
-    features: [
-      "Lifetime access to all signals",
-      "All future updates included",
-      "VIP Telegram channel",
-      "Direct line for questions",
-    ],
-    cta: "View Lifetime",
-    href: "/lifetime-signals",
-    featured: false,
-    internal: true,
   },
 ];
 
@@ -77,7 +60,7 @@ export function SignalsSection() {
           </p>
         </motion.div>
 
-        <div className="grid md:grid-cols-3 gap-6">
+        <div className="grid md:grid-cols-2 gap-6 max-w-4xl mx-auto">
           {tiers.map((tier, i) => (
             <motion.div
               key={tier.name}
@@ -115,21 +98,12 @@ export function SignalsSection() {
                   </li>
                 ))}
               </ul>
-              {tier.internal ? (
-                <Link to={tier.href}>
-                  <Button variant={tier.featured ? "gold" : "goldOutline"} className="w-full group">
-                    {tier.cta}
-                    <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-                  </Button>
-                </Link>
-              ) : (
-                <a href={tier.href} target="_blank" rel="noopener noreferrer">
-                  <Button variant={tier.featured ? "gold" : "goldOutline"} className="w-full group">
-                    {tier.cta}
-                    <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-                  </Button>
-                </a>
-              )}
+              <a href={tier.href} target="_blank" rel="noopener noreferrer">
+                <Button variant={tier.featured ? "gold" : "goldOutline"} className="w-full group">
+                  {tier.cta}
+                  <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                </Button>
+              </a>
             </motion.div>
           ))}
         </div>

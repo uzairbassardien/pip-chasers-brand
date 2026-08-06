@@ -10,6 +10,7 @@ import {
   Check
 } from "lucide-react";
 import { Button } from "./ui/button";
+import { scrollToSection } from "@/lib/scrollToSection";
 
 const services = [
   {
@@ -23,6 +24,7 @@ const services = [
       "Weekly market reviews",
       "1-on-1 coaching available",
     ],
+    target: "mentorship",
     featured: false,
   },
   {
@@ -36,6 +38,7 @@ const services = [
       "News & sentiment analysis",
       "Real-time alerts",
     ],
+    target: "signals",
     featured: true,
   },
   {
@@ -49,6 +52,7 @@ const services = [
       "Discipline frameworks",
       "Mindset coaching",
     ],
+    target: "mentorship",
     featured: false,
   },
   {
@@ -62,6 +66,7 @@ const services = [
       "Accountability partners",
       "Exclusive webinars",
     ],
+    target: "mentorship",
     featured: false,
   },
 ];
@@ -147,6 +152,7 @@ export function ServicesSection() {
               <Button 
                 variant={service.featured ? "gold" : "goldOutline"} 
                 className="w-full group/btn"
+                onClick={() => scrollToSection(service.target)}
               >
                 Learn More
                 <ArrowRight className="w-4 h-4 group-hover/btn:translate-x-1 transition-transform" />

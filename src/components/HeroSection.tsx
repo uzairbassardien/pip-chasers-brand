@@ -2,6 +2,7 @@ import { motion } from "framer-motion";
 import { ArrowRight, TrendingUp } from "lucide-react";
 import { Button } from "./ui/button";
 import { lifestyleImages } from "@/lib/lifestyleImages";
+import { scrollToSection } from "@/lib/scrollToSection";
 
 const heroLifestyleImages = [
   { image: 1, top: "18%", left: "3%", size: "w-24 2xl:w-32", rotate: -10, delay: 0.15 },
@@ -126,11 +127,20 @@ export function HeroSection() {
             transition={{ duration: 0.7, delay: 0.3 }}
             className="flex flex-col sm:flex-row items-center justify-center gap-4"
           >
-            <Button variant="hero" size="xl" className="group">
+            <Button
+              variant="hero"
+              size="xl"
+              className="group"
+              onClick={() => scrollToSection("contact")}
+            >
               Join Pip Chasers
               <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
             </Button>
-            <Button variant="heroOutline" size="xl">
+            <Button
+              variant="heroOutline"
+              size="xl"
+              onClick={() => scrollToSection("services")}
+            >
               View Services
             </Button>
           </motion.div>
