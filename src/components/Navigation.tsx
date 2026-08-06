@@ -96,9 +96,7 @@ export function Navigation() {
                   {link.name}
                 </a>
               ))}
-              <div className="flex justify-end">
-                <ThemeToggle />
-              </div>
+            
               <Button
                 variant="gold"
                 size="lg"

@@ -3,6 +3,7 @@ import { ArrowRight, TrendingUp } from "lucide-react";
 import { Button } from "./ui/button";
 import { lifestyleImages } from "@/lib/lifestyleImages";
 import { scrollToSection } from "@/lib/scrollToSection";
+import ThemeToggle from "./ThemeToggle";
 
 const heroLifestyleImages = [
   { image: 1, top: "18%", left: "3%", size: "w-24 2xl:w-32", rotate: -10, delay: 0.15 },
@@ -14,6 +15,10 @@ const heroLifestyleImages = [
 export function HeroSection() {
   return (
     <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
+      {/* Mobile theme toggle positioned near top-right */}
+      <div className="absolute top-4 right-4 z-30 md:hidden">
+        <ThemeToggle />
+      </div>
       {/* Background Effects */}
       <div className="absolute inset-0 bg-background" />
       <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_hsl(217_91%_50%_/_0.08)_0%,_transparent_60%)]" />
