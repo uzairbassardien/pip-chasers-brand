@@ -27,7 +27,7 @@ export function FloatingLifestyleImages() {
       aria-hidden="true"
       className="pointer-events-none absolute inset-0 z-20 hidden overflow-hidden xl:block"
     >
-      {floatingImageLayout.map((item, index) => {
+      {lifestyleImages.length > 0 && floatingImageLayout.map((item, index) => {
         const image = lifestyleImages[item.image % lifestyleImages.length];
 
         return (
