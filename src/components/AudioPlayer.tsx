@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { Button } from "@/components/ui/button";
 
-import songSrc from "../song/Lil Baby - Due 4A Win (Official Visualizer).mp3";
+import songSrc from "../song/background-track.mp3";
 
 const AudioPlayer = () => {
   const [isMuted, setIsMuted] = useState(true);
