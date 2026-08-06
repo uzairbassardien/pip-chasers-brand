@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Menu, X } from "lucide-react";
 import { Button } from "./ui/button";
+import ThemeToggle from "./ThemeToggle";
 import { scrollToSection } from "@/lib/scrollToSection";
 
 const navLinks = [
@@ -57,8 +58,9 @@ export function Navigation() {
             ))}
           </div>
 
-          {/* CTA Button */}
-          <div className="hidden md:block">
+          {/* CTA + Theme Toggle */}
+          <div className="hidden md:flex items-center gap-4">
+            <ThemeToggle />
             <Button variant="gold" size="lg" onClick={() => scrollToSection("contact")}>
               Join Now
             </Button>
@@ -94,6 +96,9 @@ export function Navigation() {
                   {link.name}
                 </a>
               ))}
+              <div className="flex justify-end">
+                <ThemeToggle />
+              </div>
               <Button
                 variant="gold"
                 size="lg"

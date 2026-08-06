@@ -1,13 +1,8 @@
 import { motion } from "framer-motion";
 import { useInView } from "framer-motion";
 import { useRef } from "react";
-import { ArrowUpRight, CheckCircle2, Quote, Star, TrendingUp } from "lucide-react";
-
-const latestTrades = [
-  { pair: "NAS100", setup: "London session", result: "+82 pips", status: "TP Hit" },
-  { pair: "XAUUSD", setup: "NY continuation", result: "+46 pips", status: "Secured" },
-  { pair: "US30", setup: "Break and retest", result: "+64 pips", status: "TP Hit" },
-];
+import { CheckCircle2, Quote, Star, TrendingUp } from "lucide-react";
+import garshwinImage from "@/assets/Garshwin.jpeg";
 
 export function FeaturedTestimonialSection() {
   const ref = useRef(null);
@@ -79,30 +74,16 @@ export function FeaturedTestimonialSection() {
                 <span className="w-2.5 h-2.5 rounded-full bg-red-400" />
                 <span className="w-2.5 h-2.5 rounded-full bg-yellow-400" />
                 <span className="w-2.5 h-2.5 rounded-full bg-green-400" />
-                <span className="ml-auto text-xs text-muted-foreground">Garshwin-trades.png</span>
+                <span className="ml-auto text-xs text-muted-foreground">Garshwin.jpeg</span>
               </div>
 
-              <div className="p-4 space-y-3">
-                {latestTrades.map((trade) => (
-                  <div
-                    key={trade.pair}
-                    className="p-4 rounded-lg bg-card border border-border"
-                  >
-                    <div className="flex items-center justify-between gap-3 mb-2">
-                      <p className="font-display font-semibold">{trade.pair}</p>
-                      <span className="inline-flex items-center gap-1 text-sm font-semibold text-green-500">
-                        {trade.result}
-                        <ArrowUpRight className="w-4 h-4" />
-                      </span>
-                    </div>
-                    <div className="flex items-center justify-between gap-3 text-xs text-muted-foreground">
-                      <span>{trade.setup}</span>
-                      <span className="px-2 py-1 rounded-full bg-gold/10 text-gold">
-                        {trade.status}
-                      </span>
-                    </div>
-                  </div>
-                ))}
+              <div className="relative">
+                <img
+                  src={garshwinImage}
+                  alt="Garshwin latest trades"
+                  className="w-full max-h-[420px] object-cover"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-background/30 via-transparent to-transparent" />
               </div>
             </div>
           </div>
