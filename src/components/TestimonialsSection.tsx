@@ -25,7 +25,7 @@ export function TestimonialsSection() {
   const isInView = useInView(ref, { once: true, margin: "-100px" });
 
   return (
-    <section className="section-padding relative">
+    <section id="testimonials" className="section-padding relative">
       <div className="container-custom" ref={ref}>
         {/* Header */}
         <motion.div
