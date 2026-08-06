@@ -2,6 +2,7 @@ import { motion } from "framer-motion";
 import { ArrowRight, TrendingUp } from "lucide-react";
 import { Button } from "./ui/button";
 import { lifestyleImages } from "@/lib/lifestyleImages";
+import mobileVideo from "../videos/mobile.vod.mp4";
 
 const heroLifestyleImages = [
   { image: 1, top: "18%", left: "3%", size: "w-24 2xl:w-32", rotate: -10, delay: 0.15 },
@@ -27,6 +28,18 @@ export function HeroSection() {
           backgroundSize: '60px 60px'
         }}
       />
+
+      <div className="absolute inset-0 z-0 block md:hidden">
+        <video
+          src={mobileVideo}
+          autoPlay
+          muted
+          loop
+          playsInline
+          className="h-full w-full object-cover"
+        />
+        <div className="absolute inset-0 bg-black/80" />
+      </div>
 
       {/* Floating Elements */}
       <motion.div
@@ -82,7 +95,7 @@ export function HeroSection() {
         })}
       </div>
 
-      <div className="container-custom relative z-10 pt-20">
+      <div className="container-custom relative z-20 pt-20">
         <div className="max-w-4xl mx-auto text-center">
           {/* Badge */}
           <motion.div
@@ -102,10 +115,10 @@ export function HeroSection() {
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.7, delay: 0.1 }}
-            className="font-display text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold leading-tight mb-6 text-foreground"
+            className="font-display text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold leading-tight mb-6 text-white md:text-foreground drop-shadow-[0_2px_8px_rgba(0,0,0,0.8)] md:drop-shadow-none"
           >
             Master the Markets with{" "}
-            <span className="text-gradient-gold">Discipline</span>
+            <span className="md:text-gradient-gold">Discipline</span>
           </motion.h1>
 
           {/* Subheadline */}
@@ -113,7 +126,7 @@ export function HeroSection() {
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.7, delay: 0.2 }}
-            className="text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto mb-10"
+            className="text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto mb-10 drop-shadow-[0_1px_4px_rgba(0,0,0,0.8)] md:drop-shadow-none"
           >
             Real execution. Real markets. Real results. Join a community of disciplined traders 
             focused on precision, consistency, and sustainable growth.
@@ -126,12 +139,14 @@ export function HeroSection() {
             transition={{ duration: 0.7, delay: 0.3 }}
             className="flex flex-col sm:flex-row items-center justify-center gap-4"
           >
-            <Button variant="hero" size="xl" className="group">
-              Join Pip Chasers
-              <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+            <Button asChild variant="hero" size="xl" className="group">
+              <a href="#contact">
+                Join Pip Chasers
+                <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+              </a>
             </Button>
-            <Button variant="heroOutline" size="xl">
-              View Services
+            <Button asChild variant="heroOutline" size="xl">
+              <a href="#services">View Services</a>
             </Button>
           </motion.div>
 

@@ -58,14 +58,18 @@ export function Navigation() {
 
           {/* CTA Button */}
           <div className="hidden md:block">
-            <Button variant="gold" size="lg">
-              Join Now
+            <Button asChild variant="gold" size="lg">
+              <a href="#contact">Join Now</a>
             </Button>
           </div>
 
           {/* Mobile Menu Button */}
           <button
-            className="md:hidden p-2 text-foreground"
+            className="md:hidden p-2 text-white glow-blue"
+            style={{
+              textShadow: '0 0 10px hsl(217 91% 50%)',
+              filter: 'drop-shadow(0 0 8px hsl(217 91% 50% / 0.6))'
+            }}
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
           >
             {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
@@ -87,14 +91,16 @@ export function Navigation() {
                 <a
                   key={link.name}
                   href={link.href}
-                  className="text-lg font-medium text-foreground hover:text-gold transition-colors py-2"
+                  className="text-lg font-medium text-white md:text-muted-foreground hover:text-gold transition-colors py-2"
                   onClick={() => setIsMobileMenuOpen(false)}
                 >
                   {link.name}
                 </a>
               ))}
-              <Button variant="gold" size="lg" className="mt-4">
-                Join Now
+              <Button asChild variant="gold" size="lg" className="mt-4">
+                <a href="#contact" onClick={() => setIsMobileMenuOpen(false)}>
+                  Join Now
+                </a>
               </Button>
             </div>
           </motion.div>

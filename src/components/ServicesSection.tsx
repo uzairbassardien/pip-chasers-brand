@@ -144,12 +144,14 @@ export function ServicesSection() {
                 ))}
               </ul>
 
-              <Button 
+              <Button asChild
                 variant={service.featured ? "gold" : "goldOutline"} 
                 className="w-full group/btn"
               >
-                Learn More
-                <ArrowRight className="w-4 h-4 group-hover/btn:translate-x-1 transition-transform" />
+                <a href="#contact">
+                  Learn More
+                  <ArrowRight className="w-4 h-4 group-hover/btn:translate-x-1 transition-transform" />
+                </a>
               </Button>
             </motion.div>
           ))}
