@@ -7,6 +7,7 @@ import Index from "./pages/Index";
 import LifetimeSignals from "./pages/LifetimeSignals";
 import LifestyleGallery from "./pages/LifestyleGallery";
 import NotFound from "./pages/NotFound";
+import AudioPlayer from "./components/AudioPlayer";
 
 const queryClient = new QueryClient();
 
@@ -24,6 +25,7 @@ const App = () => (
           <Route path="*" element={<NotFound />} />
         </Routes>
       </BrowserRouter>
+      <AudioPlayer />
     </TooltipProvider>
   </QueryClientProvider>
 );
