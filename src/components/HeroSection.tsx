@@ -159,7 +159,7 @@ export function HeroSection() {
             className="grid grid-cols-3 gap-8 mt-20 pt-10 border-t border-border/30"
           >
             {[
-              { value: "5+", label: "Years Trading" },
+              { value: "11+", label: "Years Trading" },
               { value: "1000+", label: "Students Trained" },
               { value: "24/7", label: "Market Analysis" },
             ].map((stat) => (
