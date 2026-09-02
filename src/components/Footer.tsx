@@ -8,10 +8,10 @@ const footerLinks = {
     { name: "Private Community", href: "#services" },
   ],
   company: [
-    { name: "About Us", href: "#about" },
-    { name: "Results", href: "#results" },
-    { name: "Testimonials", href: "#testimonials" },
-    { name: "Contact", href: "#contact" },
+    { name: "About Us", href: "/#about" },
+    { name: "Results", href: "/results" },
+    { name: "Testimonials", href: "/testimonials" },
+    { name: "Contact", href: "/#contact" },
   ],
 };
 
