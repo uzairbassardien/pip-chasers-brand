@@ -6,6 +6,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Index from "./pages/Index";
 import LifetimeSignals from "./pages/LifetimeSignals";
 import LifestyleGallery from "./pages/LifestyleGallery";
+import Testimonials from "./pages/Testimonials";
 import NotFound from "./pages/NotFound";
 import AudioPlayer from "./components/AudioPlayer";
 
@@ -21,6 +22,7 @@ const App = () => (
           <Route path="/" element={<Index />} />
           <Route path="/lifetime-signals" element={<LifetimeSignals />} />
           <Route path="/lifestyle-gallery" element={<LifestyleGallery />} />
+          <Route path="/testimonials" element={<Testimonials />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>
