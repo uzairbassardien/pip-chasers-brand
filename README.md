@@ -1,73 +1,48 @@
-# Welcome to your Lovable project
+# Pip Chasers
 
-## Project info
+A React, TypeScript, and Vite website for Pip Chasers, with a Supabase-powered admin panel.
 
-**URL**: https://lovable.dev/projects/REPLACE_WITH_PROJECT_ID
-
-## How can I edit this code?
-
-There are several ways of editing your application.
-
-**Use Lovable**
-
-Simply visit the [Lovable Project](https://lovable.dev/projects/REPLACE_WITH_PROJECT_ID) and start prompting.
-
-Changes made via Lovable will be committed automatically to this repo.
-
-**Use your preferred IDE**
-
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
-
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
-
-Follow these steps:
+## Run locally
 
 ```sh
-# Step 1: Clone the repository using the project's Git URL.
-git clone <YOUR_GIT_URL>
-
-# Step 2: Navigate to the project directory.
-cd <YOUR_PROJECT_NAME>
-
-# Step 3: Install the necessary dependencies.
-npm i
-
-# Step 4: Start the development server with auto-reloading and an instant preview.
+npm install
 npm run dev
 ```
 
-**Edit a file directly in GitHub**
+## Connect Supabase and set up the admin panel
 
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
+1. Create a project at [supabase.com](https://supabase.com/).
+2. In Project Settings → API, copy the Project URL and the anon/publishable key.
+3. Copy `.env.example` to `.env.local` and replace its placeholder values. In PowerShell:
 
-**Use GitHub Codespaces**
+   ```powershell
+   Copy-Item .env.example .env.local
+   ```
 
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
+   ```dotenv
+   VITE_SUPABASE_URL=https://your-project-id.supabase.co
+   VITE_SUPABASE_ANON_KEY=your-anon-or-publishable-key
+   ```
 
-## What technologies are used for this project?
+   The publishable key can also be named `VITE_SUPABASE_PUBLISHABLE_KEY`. Never put a `service_role` key in this Vite app; browser environment variables are public.
 
-This project is built with:
+4. Open the Supabase SQL Editor and run [`supabase/schema.sql`](./supabase/schema.sql).
+5. In Authentication → Users, invite or create your administrator account.
+6. In the SQL Editor, grant that account admin access, replacing the email:
 
-- Vite
-- TypeScript
-- React
-- shadcn-ui
-- Tailwind CSS
+   ```sql
+   insert into public.admin_users (user_id)
+   select id from auth.users where email = 'you@example.com';
+   ```
 
-## How can I deploy this project?
+   Confirm one row was inserted. Only users in `admin_users` can read inquiries or manage testimonials.
+7. Restart the Vite server, then visit `/admin` and sign in with that account.
 
-Simply open [Lovable](https://lovable.dev/projects/REPLACE_WITH_PROJECT_ID) and click on Share -> Publish.
+The admin panel manages contact inquiries and testimonials. The public contact form saves inquiries to Supabase and opens WhatsApp as before. Published testimonials are read from Supabase on the public site; when there are no published database records, the existing built-in testimonials remain visible.
 
-## Can I connect a custom domain to my Lovable project?
+### Security and operations
 
-Yes, you can!
-
-To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
-
-Read more here: [Setting up a custom domain](https://docs.lovable.dev/features/custom-domain#custom-domain)
+- Row Level Security is enabled for all tables. Public visitors can submit inquiries and read published testimonials, but cannot read inquiry data.
+- Use Supabase Auth's invite flow for administrators; do not enable public sign-ups for the admin panel.
+- Because the inquiry form accepts public submissions, configure Supabase CAPTCHA / rate limits before production if you expect abuse.
+- For production hosting, set the same `VITE_SUPABASE_URL` and anon/publishable key in the hosting provider's environment settings, then rebuild the site.

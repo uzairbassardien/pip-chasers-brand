@@ -2,9 +2,11 @@ import { motion } from "framer-motion";
 import { useInView } from "framer-motion";
 import { useRef, useState } from "react";
 import { Send, MessageCircle, Instagram, Mail, MapPin } from "lucide-react";
+import { toast } from "sonner";
 import { Button } from "./ui/button";
 import { Input } from "./ui/input";
 import { Textarea } from "./ui/textarea";
+import { isSupabaseConfigured, supabase } from "@/lib/supabase";
 
 const contactMethods = [
   {
@@ -42,7 +44,7 @@ export function ContactSection() {
     message: "",
   });
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
     const message = [
@@ -53,11 +55,28 @@ export function ContactSection() {
       `Message: ${formData.message}`,
     ].join("\n");
 
-    window.open(
+    const whatsappWindow = window.open(
       `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(message)}`,
       "_blank",
       "noopener,noreferrer",
     );
+
+    if (isSupabaseConfigured && supabase) {
+      const { error } = await supabase.from("inquiries").insert({
+        full_name: formData.name,
+        email: formData.email,
+        subject: formData.subject,
+        message: formData.message,
+      });
+      if (error) {
+        toast.error(`Your WhatsApp message is ready, but saving your inquiry failed: ${error.message}`);
+      } else {
+        toast.success("Your inquiry has been saved. We'll be in touch soon.");
+        setFormData({ name: "", email: "", subject: "", message: "" });
+      }
+    } else if (!whatsappWindow) {
+      toast.error("Your browser blocked the WhatsApp window. Please use the WhatsApp contact link instead.");
+    }
   };
 
   return (
@@ -144,6 +163,7 @@ export function ContactSection() {
                   <Input
                     type="text"
                     placeholder="Your name"
+                    required
                     value={formData.name}
                     onChange={(e) => setFormData({ ...formData, name: e.target.value })}
                     className="bg-charcoal-light border-border focus:border-gold"
@@ -154,6 +174,7 @@ export function ContactSection() {
                   <Input
                     type="email"
                     placeholder="your@email.com"
+                    required
                     value={formData.email}
                     onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                     className="bg-charcoal-light border-border focus:border-gold"
@@ -166,6 +187,7 @@ export function ContactSection() {
                 <Input
                   type="text"
                   placeholder="Trading Mentorship / Market Guidance / Other"
+                  required
                   value={formData.subject}
                   onChange={(e) => setFormData({ ...formData, subject: e.target.value })}
                   className="bg-charcoal-light border-border focus:border-gold"
@@ -177,6 +199,7 @@ export function ContactSection() {
                 <Textarea
                   placeholder="Tell us more about what you're looking for..."
                   rows={5}
+                  required
                   value={formData.message}
                   onChange={(e) => setFormData({ ...formData, message: e.target.value })}
                   className="bg-charcoal-light border-border focus:border-gold resize-none"

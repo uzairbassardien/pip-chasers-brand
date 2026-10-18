@@ -1,7 +1,9 @@
 import { motion } from "framer-motion";
 import { useInView } from "framer-motion";
-import { useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Star, Quote } from "lucide-react";
+import { toast } from "sonner";
+import { isSupabaseConfigured, supabase, Testimonial } from "@/lib/supabase";
 
 const testimonials = [
   {
@@ -23,6 +25,33 @@ const testimonials = [
 export function TestimonialsSection() {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: "-100px" });
+  const [visibleTestimonials, setVisibleTestimonials] = useState(testimonials);
+
+  useEffect(() => {
+    if (!isSupabaseConfigured || !supabase) return;
+    let isMounted = true;
+    void supabase
+      .from("testimonials")
+      .select("id, name, role, content, rating, category")
+      .eq("is_published", true)
+      .order("created_at", { ascending: false })
+      .then(({ data, error }) => {
+        if (!isMounted) return;
+        if (error) {
+          toast.error(`Could not load published testimonials: ${error.message}`);
+          return;
+        }
+        if (data?.length) {
+          setVisibleTestimonials(data.map((item) => ({
+            ...(item as Pick<Testimonial, "name" | "role" | "content" | "rating">),
+            type: (item as Pick<Testimonial, "category">).category,
+          })));
+        }
+      });
+    return () => {
+      isMounted = false;
+    };
+  }, []);
 
   return (
     <section id="testimonials" className="section-padding relative">
@@ -49,7 +78,7 @@ export function TestimonialsSection() {
 
         {/* Testimonials Grid */}
         <div className="grid md:grid-cols-2 gap-6">
-          {testimonials.map((testimonial, index) => (
+          {visibleTestimonials.map((testimonial, index) => (
             <motion.div
               key={testimonial.name}
               initial={{ opacity: 0, y: 40 }}
@@ -85,7 +114,7 @@ export function TestimonialsSection() {
                 </div>
                 <div className="ml-auto">
                   <span className="text-xs px-3 py-1 rounded-full bg-gold/10 text-gold">
-                    Trading
+                    {testimonial.type}
                   </span>
                 </div>
               </div>
