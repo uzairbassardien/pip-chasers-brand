@@ -4,12 +4,16 @@ const supabaseUrl = import.meta.env.VITE_SUPABASE_URL?.trim() ?? "";
 const supabaseAnonKey = (
   import.meta.env.VITE_SUPABASE_ANON_KEY ??
   import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY ??
+  import.meta.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY ??
+  import.meta.env.NEXT_PUBLIC_SUPABASE_ANON_KEY ??
   ""
 ).trim();
+const resolvedSupabaseUrl =
+  supabaseUrl || import.meta.env.NEXT_PUBLIC_SUPABASE_URL?.trim() || "";
 
 const isValidSupabaseUrl = (() => {
   try {
-    const parsedUrl = new URL(supabaseUrl);
+    const parsedUrl = new URL(resolvedSupabaseUrl);
     const isLocalHttp =
       parsedUrl.protocol === "http:" &&
       (parsedUrl.hostname === "localhost" ||
@@ -30,7 +34,7 @@ export const isSupabaseConfigured = Boolean(
 );
 
 export const supabase = isSupabaseConfigured
-  ? createClient(supabaseUrl, supabaseAnonKey)
+  ? createClient(resolvedSupabaseUrl, supabaseAnonKey)
   : null;
 
 export type Inquiry = {
