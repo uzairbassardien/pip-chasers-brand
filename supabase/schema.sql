@@ -26,9 +26,17 @@ create table if not exists public.testimonials (
   created_at timestamptz not null default now()
 );
 
+create table if not exists public.button_click_stats (
+  action_key text not null,
+  click_date date not null default current_date,
+  clicks bigint not null default 0 check (clicks >= 0),
+  primary key (action_key, click_date)
+);
+
 alter table public.admin_users enable row level security;
 alter table public.inquiries enable row level security;
 alter table public.testimonials enable row level security;
+alter table public.button_click_stats enable row level security;
 
 create or replace function public.is_admin()
 returns boolean
@@ -47,13 +55,72 @@ $$;
 revoke all on function public.is_admin() from public;
 grant execute on function public.is_admin() to authenticated;
 
+create or replace function public.record_button_clicks(p_clicks jsonb)
+returns void
+language plpgsql
+security definer
+set search_path = ''
+as $$
+declare
+  v_action text;
+  v_count integer;
+  v_total integer := 0;
+  v_item record;
+begin
+  if jsonb_typeof(p_clicks) <> 'object' then
+    raise exception 'Click counts must be a JSON object';
+  end if;
+
+  for v_item in select * from jsonb_each_text(p_clicks)
+  loop
+    v_action := v_item.key;
+    v_count := v_item.value::integer;
+
+    if v_action not in (
+      'join_now',
+      'join_pip_chasers',
+      'view_services',
+      'send_message',
+      'signals_monthly',
+      'signals_yearly',
+      'mentorship_monthly',
+      'mentorship_yearly',
+      'mentorship_lifetime',
+      'service_learn_more',
+      'gallery_view_more'
+    ) then
+      raise exception 'Unknown button action';
+    end if;
+
+    if v_count < 1 or v_count > 100 then
+      raise exception 'Click batch counts must be between 1 and 100';
+    end if;
+
+    v_total := v_total + v_count;
+    if v_total > 100 then
+      raise exception 'Click batch cannot exceed 100 clicks';
+    end if;
+
+    insert into public.button_click_stats (action_key, click_date, clicks)
+    values (v_action, current_date, v_count)
+    on conflict (action_key, click_date)
+    do update set clicks = public.button_click_stats.clicks + excluded.clicks;
+  end loop;
+end;
+$$;
+
+revoke all on function public.record_button_clicks(jsonb) from public;
+grant execute on function public.record_button_clicks(jsonb) to anon, authenticated;
+
 revoke all on public.admin_users from anon, authenticated;
 revoke all on public.inquiries from anon, authenticated;
 revoke all on public.testimonials from anon, authenticated;
+revoke all on public.button_click_stats from anon, authenticated;
 grant insert on public.inquiries to anon, authenticated;
 grant select, update, delete on public.inquiries to authenticated;
 grant select on public.testimonials to anon;
 grant select, insert, update, delete on public.testimonials to authenticated;
+grant select on public.button_click_stats to authenticated;
 
 drop policy if exists "Anyone can submit an inquiry" on public.inquiries;
 create policy "Anyone can submit an inquiry"
@@ -100,6 +167,11 @@ create policy "Admins can update testimonials"
 drop policy if exists "Admins can delete testimonials" on public.testimonials;
 create policy "Admins can delete testimonials"
   on public.testimonials for delete to authenticated
+  using (public.is_admin());
+
+drop policy if exists "Admins can read button click stats" on public.button_click_stats;
+create policy "Admins can read button click stats"
+  on public.button_click_stats for select to authenticated
   using (public.is_admin());
 
 -- After creating/inviting your admin in Authentication > Users, allow that account:

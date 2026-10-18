@@ -206,7 +206,7 @@ export function ContactSection() {
                 />
               </div>
 
-              <Button variant="gold" size="lg" className="w-full group">
+              <Button data-track-click="send_message" variant="gold" size="lg" className="w-full group">
                 Send Message
                 <Send className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
               </Button>

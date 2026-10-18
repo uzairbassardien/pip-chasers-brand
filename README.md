@@ -38,7 +38,9 @@ npm run dev
    Confirm one row was inserted. Only users in `admin_users` can read inquiries or manage testimonials.
 7. Restart the Vite server, then visit `/admin` and sign in with that account.
 
-The admin panel manages contact inquiries and testimonials. The public contact form saves inquiries to Supabase and opens WhatsApp as before. Published testimonials are read from Supabase on the public site; when there are no published database records, the existing built-in testimonials remain visible.
+The admin panel manages contact inquiries, testimonials, and anonymous button-click totals. The public contact form saves inquiries to Supabase and opens WhatsApp as before. Published testimonials are read from Supabase on the public site; when there are no published database records, the existing built-in testimonials remain visible.
+
+To enable button analytics on an existing project, rerun [`supabase/schema.sql`](./supabase/schema.sql) in the SQL Editor **before deploying the click-tracking code**. This creates the daily aggregate table and its restricted batch-write function. Only allowlisted action names can be recorded. The site batches clicks and stores one counter per action per day; it does not store individual click records, visitor identifiers, or personal data. The admin panel reads aggregate counts for the last 30 days.
 
 ### Security and operations
 

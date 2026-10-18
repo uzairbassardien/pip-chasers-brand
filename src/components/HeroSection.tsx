@@ -132,6 +132,7 @@ export function HeroSection() {
               <Button
                 variant="hero"
                 size="xl"
+                data-track-click="join_pip_chasers"
                 className="group"
                 onClick={() => scrollToSection("contact")}
               >
@@ -145,6 +146,7 @@ export function HeroSection() {
             <Button
               variant="heroOutline"
               size="xl"
+              data-track-click="view_services"
               onClick={() => scrollToSection("services")}
             >
               View Services

@@ -10,6 +10,7 @@ import {
   LogOut,
   Menu,
   MessageSquareQuote,
+  MousePointerClick,
   Plus,
   Search,
   Settings,
@@ -36,8 +37,9 @@ import {
   supabase,
   Testimonial,
 } from "@/lib/supabase";
+import { ButtonClickStat, trackedActions } from "@/lib/buttonTracking";
 
-type AdminTab = "overview" | "inquiries" | "testimonials";
+type AdminTab = "overview" | "inquiries" | "testimonials" | "activity";
 type TestimonialDraft = Omit<Testimonial, "id" | "created_at">;
 
 const emptyDraft: TestimonialDraft = {
@@ -53,6 +55,7 @@ const navigation: { id: AdminTab; label: string; icon: typeof LayoutDashboard }[
   { id: "overview", label: "Overview", icon: LayoutDashboard },
   { id: "inquiries", label: "Inquiries", icon: Inbox },
   { id: "testimonials", label: "Testimonials", icon: MessageSquareQuote },
+  { id: "activity", label: "Button activity", icon: MousePointerClick },
 ];
 
 function AdminSetup() {
@@ -197,6 +200,8 @@ function AdminDashboard({ session }: { session: Session }) {
   const [tab, setTab] = useState<AdminTab>("overview");
   const [inquiries, setInquiries] = useState<Inquiry[]>([]);
   const [testimonials, setTestimonials] = useState<Testimonial[]>([]);
+  const [clickStats, setClickStats] = useState<ButtonClickStat[]>([]);
+  const [clickStatsError, setClickStatsError] = useState("");
   const [isLoading, setIsLoading] = useState(true);
   const [loadError, setLoadError] = useState("");
   const [search, setSearch] = useState("");
@@ -211,9 +216,19 @@ function AdminDashboard({ session }: { session: Session }) {
     if (!supabase) return;
     setIsLoading(true);
     setLoadError("");
-    const [inquiryResult, testimonialResult] = await Promise.all([
+    setClickStatsError("");
+    setClickStats([]);
+    const startDate = new Date();
+    startDate.setUTCDate(startDate.getUTCDate() - 29);
+    const startDateString = startDate.toISOString().slice(0, 10);
+    const [inquiryResult, testimonialResult, clickStatsResult] = await Promise.all([
       supabase.from("inquiries").select("*").order("created_at", { ascending: false }),
       supabase.from("testimonials").select("*").order("created_at", { ascending: false }),
+      supabase
+        .from("button_click_stats")
+        .select("action_key, click_date, clicks")
+        .gte("click_date", startDateString)
+        .order("click_date", { ascending: false }),
     ]);
     setIsLoading(false);
     if (inquiryResult.error || testimonialResult.error) {
@@ -224,6 +239,11 @@ function AdminDashboard({ session }: { session: Session }) {
     }
     setInquiries((inquiryResult.data ?? []) as Inquiry[]);
     setTestimonials((testimonialResult.data ?? []) as Testimonial[]);
+    if (clickStatsResult.error) {
+      setClickStatsError(clickStatsResult.error.message);
+    } else {
+      setClickStats((clickStatsResult.data ?? []) as ButtonClickStat[]);
+    }
   }, []);
 
   useEffect(() => {
@@ -407,6 +427,12 @@ function AdminDashboard({ session }: { session: Session }) {
               <Button variant="outline" size="sm" onClick={() => void loadData()}>Try again</Button>
             </div>
           )}
+          {clickStatsError && !isLoading && (
+            <div className="mb-6 flex flex-wrap items-center justify-between gap-3 rounded-xl border border-amber-200 bg-amber-50 p-4 text-sm text-amber-900">
+              <span>Button analytics are unavailable. Run the updated <code>supabase/schema.sql</code>. {clickStatsError}</span>
+              <Button variant="outline" size="sm" onClick={() => void loadData()}>Try again</Button>
+            </div>
+          )}
           {isLoading ? (
             <div className="rounded-2xl border border-slate-200 bg-white p-10 text-center text-sm text-slate-500">Loading your workspace…</div>
           ) : tab === "overview" ? (
@@ -414,6 +440,7 @@ function AdminDashboard({ session }: { session: Session }) {
               inquiries={inquiries}
               newInquiries={newInquiries}
               testimonials={testimonials}
+              clickStats={clickStats}
               onViewInquiries={() => setTab("inquiries")}
               onViewTestimonials={() => setTab("testimonials")}
               onOpenInquiry={setActiveInquiry}
@@ -425,7 +452,7 @@ function AdminDashboard({ session }: { session: Session }) {
               onSearch={setSearch}
               onOpen={setActiveInquiry}
             />
-          ) : (
+          ) : tab === "testimonials" ? (
             <TestimonialsView
               testimonials={testimonials}
               onCreate={openCreateTestimonial}
@@ -433,6 +460,8 @@ function AdminDashboard({ session }: { session: Session }) {
               onToggle={togglePublished}
               onDelete={deleteTestimonial}
             />
+          ) : (
+            <ButtonActivityView stats={clickStats} />
           )}
         </main>
       </div>
@@ -486,10 +515,17 @@ function AdminDashboard({ session }: { session: Session }) {
   );
 }
 
+function getUtcDateDaysAgo(days: number) {
+  const date = new Date();
+  date.setUTCDate(date.getUTCDate() - days);
+  return date.toISOString().slice(0, 10);
+}
+
 function Overview({
   inquiries,
   newInquiries,
   testimonials,
+  clickStats,
   onViewInquiries,
   onViewTestimonials,
   onOpenInquiry,
@@ -497,15 +533,18 @@ function Overview({
   inquiries: Inquiry[];
   newInquiries: number;
   testimonials: Testimonial[];
+  clickStats: ButtonClickStat[];
   onViewInquiries: () => void;
   onViewTestimonials: () => void;
   onOpenInquiry: (inquiry: Inquiry) => void;
 }) {
   const recent = inquiries.slice(0, 5);
+  const totalButtonClicks = clickStats.reduce((total, stat) => total + Number(stat.clicks), 0);
   const cards = [
     { label: "Total inquiries", value: inquiries.length, icon: Inbox, note: `${newInquiries} need attention`, trend: true },
     { label: "New this week", value: inquiries.filter((item) => Date.now() - new Date(item.created_at).getTime() < 7 * 24 * 60 * 60 * 1000).length, icon: Activity, note: "Last 7 days", trend: true },
     { label: "Testimonials", value: testimonials.length, icon: MessageSquareQuote, note: `${testimonials.filter((item) => item.is_published).length} published`, trend: false },
+    { label: "Button clicks", value: totalButtonClicks, icon: MousePointerClick, note: "Last 30 days", trend: false },
   ];
   return (
     <div className="space-y-8">
@@ -519,7 +558,7 @@ function Overview({
           <Inbox className="mr-2 h-4 w-4" /> Open inbox
         </Button>
       </div>
-      <div className="grid gap-4 md:grid-cols-3">
+      <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
         {cards.map(({ label, value, icon: Icon, note, trend }) => (
           <section key={label} className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
             <div className="flex items-center justify-between">
@@ -568,6 +607,68 @@ function Overview({
         </div>
         <ArrowUpRight className="h-5 w-5 text-blue-700" />
       </button>
+    </div>
+  );
+}
+
+function ButtonActivityView({ stats }: { stats: ButtonClickStat[] }) {
+  const sevenDayStart = getUtcDateDaysAgo(6);
+  const totals = new Map<string, { last7Days: number; last30Days: number }>();
+
+  for (const stat of stats) {
+    const current = totals.get(stat.action_key) ?? { last7Days: 0, last30Days: 0 };
+    const clicks = Number(stat.clicks);
+    current.last30Days += clicks;
+    if (stat.click_date >= sevenDayStart) current.last7Days += clicks;
+    totals.set(stat.action_key, current);
+  }
+
+  const rows = Object.entries(trackedActions)
+    .map(([actionKey, label]) => ({
+      actionKey,
+      label,
+      ...(totals.get(actionKey) ?? { last7Days: 0, last30Days: 0 }),
+    }))
+    .sort((a, b) => b.last30Days - a.last30Days);
+  const totalClicks = rows.reduce((total, row) => total + row.last30Days, 0);
+
+  return (
+    <div className="space-y-6">
+      <div className="flex flex-wrap items-end justify-between gap-4">
+        <div>
+          <p className="text-sm font-semibold text-blue-700">Website engagement</p>
+          <h2 className="mt-1 font-display text-3xl font-bold tracking-tight">Button activity</h2>
+          <p className="mt-2 text-sm text-slate-500">Anonymous click counts, aggregated daily. No visitor profiles or personal data.</p>
+        </div>
+        <div className="rounded-xl border border-slate-200 bg-white px-5 py-3 shadow-sm">
+          <p className="text-xs font-semibold text-slate-500">Clicks in the last 30 days</p>
+          <p className="mt-1 font-display text-2xl font-bold">{totalClicks.toLocaleString()}</p>
+        </div>
+      </div>
+      <section className="overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm">
+        <div className="border-b border-slate-100 px-5 py-4 md:px-6">
+          <h3 className="font-display text-lg font-bold">Tracked actions</h3>
+          <p className="mt-0.5 text-xs text-slate-500">Counts are combined by action and day to minimize database writes.</p>
+        </div>
+        <div className="grid grid-cols-[minmax(0,1fr)_5rem_6rem] gap-3 border-b border-slate-100 bg-slate-50 px-5 py-3 text-[10px] font-bold uppercase tracking-wider text-slate-400 md:grid-cols-[minmax(0,1fr)_8rem_8rem] md:px-6">
+          <span>Button or action</span><span className="text-right">7 days</span><span className="text-right">30 days</span>
+        </div>
+        <div className="divide-y divide-slate-100">
+          {rows.map((row) => (
+            <div key={row.actionKey} className="grid grid-cols-[minmax(0,1fr)_5rem_6rem] items-center gap-3 px-5 py-4 md:grid-cols-[minmax(0,1fr)_8rem_8rem] md:px-6">
+              <div className="flex min-w-0 items-center gap-3">
+                <span className={`h-2 w-2 shrink-0 rounded-full ${row.last30Days ? "bg-blue-600" : "bg-slate-200"}`} />
+                <span className="truncate text-sm font-semibold">{row.label}</span>
+              </div>
+              <span className="text-right text-sm text-slate-600">{row.last7Days.toLocaleString()}</span>
+              <span className="text-right text-sm font-bold text-slate-900">{row.last30Days.toLocaleString()}</span>
+            </div>
+          ))}
+        </div>
+      </section>
+      <div className="rounded-xl border border-blue-100 bg-blue-50/70 p-4 text-sm leading-6 text-slate-600">
+        Clicks are sent in small batches (every minute, on tab close, or after ten clicks). The database keeps one counter per button per day—not a row for every click.
+      </div>
     </div>
   );
 }

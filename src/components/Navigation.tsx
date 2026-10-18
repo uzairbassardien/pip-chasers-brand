@@ -61,7 +61,7 @@ export function Navigation() {
           {/* CTA + Theme Toggle */}
           <div className="hidden md:flex items-center gap-4">
             <ThemeToggle />
-            <Button variant="gold" size="lg" onClick={() => scrollToSection("contact")}>
+            <Button data-track-click="join_now" variant="gold" size="lg" onClick={() => scrollToSection("contact")}>
               Join Now
             </Button>
           </div>
@@ -103,6 +103,7 @@ export function Navigation() {
               <Button
                 variant="gold"
                 size="lg"
+                data-track-click="join_now"
                 className="mt-4"
                 onClick={() => {
                   setIsMobileMenuOpen(false);

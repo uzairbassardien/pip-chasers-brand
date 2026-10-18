@@ -61,7 +61,7 @@ export function LifestyleGallerySection() {
           className="mt-10 flex justify-center"
         >
           <Link to="/lifestyle-gallery">
-            <Button variant="gold" size="lg" className="group">
+            <Button data-track-click="gallery_view_more" variant="gold" size="lg" className="group">
               View More
               <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
             </Button>

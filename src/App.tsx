@@ -10,6 +10,7 @@ import Testimonials from "./pages/Testimonials";
 import NotFound from "./pages/NotFound";
 import Admin from "./pages/Admin";
 import AudioPlayer from "./components/AudioPlayer";
+import ButtonClickTracker from "./components/ButtonClickTracker";
 
 const queryClient = new QueryClient();
 
@@ -24,6 +25,7 @@ const App = () => (
       <Toaster />
       <Sonner />
       <BrowserRouter>
+        <ButtonClickTracker />
         <Routes>
           <Route path="/" element={<Index />} />
           <Route path="/lifetime-signals" element={<LifetimeSignals />} />

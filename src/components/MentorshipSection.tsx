@@ -120,7 +120,17 @@ export function MentorshipSection() {
                 target="_blank"
                 rel="noopener noreferrer"
               >
-                <Button variant={tier.featured ? "gold" : "goldOutline"} className="w-full group">
+                <Button
+                  data-track-click={
+                    tier.name === "Monthly Mentorship"
+                      ? "mentorship_monthly"
+                      : tier.name === "Yearly Mentorship"
+                        ? "mentorship_yearly"
+                        : "mentorship_lifetime"
+                  }
+                  variant={tier.featured ? "gold" : "goldOutline"}
+                  className="w-full group"
+                >
                   {tier.cta}
                   <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
                 </Button>

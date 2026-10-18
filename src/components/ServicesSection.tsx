@@ -150,6 +150,7 @@ export function ServicesSection() {
               </ul>
 
               <Button 
+                data-track-click="service_learn_more"
                 variant={service.featured ? "gold" : "goldOutline"} 
                 className="w-full group/btn"
                 onClick={() => scrollToSection(service.target)}

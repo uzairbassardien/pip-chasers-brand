@@ -99,7 +99,11 @@ export function SignalsSection() {
                 ))}
               </ul>
               <a href={tier.href} target="_blank" rel="noopener noreferrer">
-                <Button variant={tier.featured ? "gold" : "goldOutline"} className="w-full group">
+                <Button
+                  data-track-click={tier.name === "Monthly" ? "signals_monthly" : "signals_yearly"}
+                  variant={tier.featured ? "gold" : "goldOutline"}
+                  className="w-full group"
+                >
                   {tier.cta}
                   <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
                 </Button>
